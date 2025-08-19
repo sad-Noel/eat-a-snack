@@ -129,6 +129,5 @@ while GAME:
         
     display.update()
     clock.tick(60)
-    display.update()
 
-    clock.tick(60)
+
