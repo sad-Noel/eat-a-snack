@@ -8,7 +8,7 @@ w_W = 600
 win = display.set_mode((height, w_W))
 display.set_caption("СЪЕШ ВСЕ")
 background = transform.scale(image.load("CHARLOTTE.JPG"), (height, w_W))
-ground = transform.scale(image.load("FON.png"), (height, w_W))
+ground = transform.scale(image.load("LAND.png"), (900, w_W))
 clock = time.Clock()
 
 mixer.init()
@@ -47,7 +47,7 @@ class Player(SpriteG):
 class Food(SpriteG):
     def update(self):
         self.rect.y += self.speed
-        if self.rect.y > 300:
+        if self.rect.y > 400:
             global missed
             self.rect.y = -60
             self.rect.x = randint(80, 620)
@@ -64,7 +64,7 @@ class Food(SpriteG):
 class XIGERIS(SpriteG):
     def update(self):
         self.rect.y += self.speed
-        if self.rect.y > 300:
+        if self.rect.y > 400:
             global missed
             self.rect.y = -60
             self.rect.x = randint(80, 620)
@@ -87,7 +87,7 @@ for i in range(2):
     xigeriss = XIGERIS("NewXigeris.png", randint(80, 620), -60, randint(5, 6), 50, 50)
     xigerises.add(xigeriss)
 
-CARTMAN = Player("CARTMAN.PNG", 400, 280, 5, 80, 80)
+CARTMAN = Player("CARTMAN.PNG", 400, 380, 5, 80, 80)
 
 
 GAME = True
@@ -100,7 +100,7 @@ while GAME:
         winntext = font2.render("ПОБЕДА!!!! ВСЕ НАШАТРЫ СЪЕДЕНЫ!!", 1, (255, 0, 0))
         LOSEEtext = font2.render("ПРОИГРЫШ!!((( НАШАТРЫ УБЕЖАЛИ!!(((", 1, (255, 0, 0))
         win.blit(background, (0, 0))
-        win.blit(ground, (0, 0))
+        win.blit(ground, (-10, 0))
         CARTMAN.reset()
         CARTMAN.update()
         foods.draw(win)
