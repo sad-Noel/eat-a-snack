@@ -22,6 +22,7 @@ font2 = font.Font(None, 50)
 
 eaten = 0
 missed = 0
+lives = 5
 
 class SpriteG(sprite.Sprite):
     def __init__(self, player_img, playerx, playery, player_speed, scalex, scaley):
@@ -55,15 +56,36 @@ class Food(SpriteG):
         if sprite.spritecollide(CARTMAN, foods, True):
             global eaten
             eaten += 1
-            while len(foods) < 1:
+            while len(foods) < 3:
 
                 food = Food("NASH.png", randint(80, 620), -60, self.speed, 70, 70)
                 foods.add(food) 
 
+class XIGERIS(SpriteG):
+    def update(self):
+        self.rect.y += self.speed
+        if self.rect.y > 300:
+            global missed
+            self.rect.y = -60
+            self.rect.x = randint(80, 620)
+            self.speed = randint(5,6)
+            missed +=1
+        if sprite.spritecollide(CARTMAN, xigerises, True):
+            global lives
+            lives -= 1
+            while len(xigerises) < 2:
+
+                xigeriss = XIGERIS("NewXigeris.png", randint(80, 620), -60, randint(5, 6), 50, 50)
+                xigerises.add(xigeriss)
+
 foods = sprite.Group()
-for i in range(1):
+for i in range(3):
     food = Food("NASH.png", randint(80, 620), -60, randint(3,4), 70, 70)
     foods.add(food) 
+xigerises = sprite.Group()
+for i in range(2):
+    xigeriss = XIGERIS("NewXigeris.png", randint(80, 620), -60, randint(5, 6), 50, 50)
+    xigerises.add(xigeriss)
 
 CARTMAN = Player("CARTMAN.PNG", 400, 280, 5, 80, 80)
 
@@ -74,6 +96,7 @@ while GAME:
     if not FINISH:
         missed_num = font1.render("Пропущено нашатр: " + str(missed), 1, (255, 255, 255))
         win_num = font1.render("Съедено нашатр: " + str(eaten), 1, (255, 255, 255))
+        livings = font1.render("Жизни: " + str(lives), 1, (255, 255, 255))
         winntext = font2.render("ПОБЕДА!!!! ВСЕ НАШАТРЫ СЪЕДЕНЫ!!", 1, (255, 0, 0))
         LOSEEtext = font2.render("ПРОИГРЫШ!!((( НАШАТРЫ УБЕЖАЛИ!!(((", 1, (255, 0, 0))
         win.blit(background, (0, 0))
@@ -82,16 +105,20 @@ while GAME:
         CARTMAN.update()
         foods.draw(win)
         foods.update()
+        xigerises.draw(win)
+        xigerises.update()
         win.blit(missed_num, (10, 10))
         win.blit(win_num, (10, 40))
-        if eaten == 10:
+        win.blit(livings, (10, 70))
+        if eaten == 20:
             FINISH = True
             win.blit(winntext, (80, 280))
             mixer.music.stop()
-        if missed == 10:
+        if missed == 50 or lives == 0:
             FINISH = True
             win.blit(LOSEEtext, (80, 280))
             mixer.music.stop()
+        
     for e in event.get():
         if e.type == QUIT:
             GAME = False
@@ -101,4 +128,7 @@ while GAME:
 
         
     display.update()
+    clock.tick(60)
+    display.update()
+
     clock.tick(60)
